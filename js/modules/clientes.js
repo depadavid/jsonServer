@@ -37,3 +37,49 @@ async function getClientesMadrid(prams) {
 }
 
 // getClientesMadrid()
+
+
+// CONSULTA MULTITABLA
+
+// 1. Obtén un listado con el nombre de cada cliente y el nombre y apellido de su representante de ventas.
+async function getClientes() {
+    const response = await fetch("http://localhost:3000/clients")
+    const data = await response.json()
+
+    const infoClientes = []
+
+    data.forEach(cliente => {
+        const { client_name, code_employee_sales_manager } = cliente
+
+        infoClientes.push({ client_name, code_employee_sales_manager })
+    })
+    return infoClientes
+}
+
+async function getEmpleados() {
+    const response = await fetch(`http://localhost:5501/employee`)
+    const empleados = await response.json()
+    return empleados
+}
+
+
+async function getClienteYRepesentanteDeVentas() {
+
+    let infoClientes = await getClientes()
+    const empleados = await getEmpleados()
+
+    infoClientes.forEach(cliente => {
+        let { code_employee_sales_manager } = cliente
+        empleados.forEach(empleado => {
+            let { id } = empleado
+            if (code_employee_sales_manager == id) {
+                infoClientes.code_employee_sales_manager = `${empleado["name"]} ${empleado["lastname1"]}`
+            }
+            console.log(infoClientes);
+        })
+    })
+    // console.log(infoClientes);
+}
+getClienteYRepesentanteDeVentas()
+
+
