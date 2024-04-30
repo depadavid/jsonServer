@@ -4,9 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "json-server --watch source/db/db.json",
+    "oficina": "json-server --watch src/db/oficina.json",
+    "empleado": "json-server --watch src/db/empleado.json -p 5501",
+    "cliente": "json-server --watch src/db/clientes.json",
+    "pedido": "json-server --watch src/db/pedido.json",
+    "pago": "json-server --watch src/db/pago.json",
+    "producto": "json-server --watch src/db/product.json"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "json-server": "^1.0.0-alpha.23"
+  },
+  "type": "module"
 }

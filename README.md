@@ -70,3 +70,6 @@ Devuelve un listado de los productos que nunca han aparecido en un pedido. El re
 Devuelve las oficinas donde no trabajan ninguno de los empleados que hayan sido los representantes de ventas de algún cliente que haya realizado la compra de algún producto de la gama Frutales.
 Devuelve un listado con los clientes que han realizado algún pedido pero no han realizado ningún pago.
 Devuelve un listado con los datos de los empleados que no tienen clientes asociados y el nombre de su jefe asociado.
+
+
+
