@@ -96,3 +96,26 @@ async function getClientesSinPago() {
 }
 
 // getClientesSinPago()
+
+// 4. Devuelve el nombre de los clientes que han hecho pagos y el nombre de sus representantes junto con la ciudad de la oficina a la que pertenece el representante.
+async function getClientesConPagoYRepresentanteDeVentasYCiudad() {
+    const pagos = await getPagos()
+    const codesClient = pagos.map(({ code_client, payment }) => ({ code_client, payment }))
+
+    const data = codesClient.map(async ({ code_client, payment }) => {
+        const cliente = await getClienteById(code_client)
+        const representante = await getEmpleadoPorId(cliente[0].code_employee_sales_manager)
+        const oficina = await getOficinaPorId(representante[0].code_office)
+
+        return {
+            payment,
+            "client_name": cliente[0].client_name,
+            "sales_manager": `${representante[0].name} ${representante[0].lastname1}`,
+            "ofina": oficina[0].city
+
+        }
+    })
+
+    console.log(await Promise.all(data));
+}
+// getClientesConPagoYRepresentanteDeVentasYCiudad()
