@@ -59,3 +59,26 @@ async function getClienteYRepresentanteDeVentas() {
 }
 
 // getClienteYRepresentanteDeVentas()
+
+// 2. Muestra el nombre de los clientes que hayan realizado pagos junto con el nombre de sus representantes de ventas.
+
+async function getClientesConPagoYRepresentanteDeVentas() {
+    const pagos = await getPagos()
+    const codesClient = pagos.map(({ code_client, payment }) => ({ code_client, payment }))
+    // console.log(codesClient);
+
+    const data = codesClient.map(async ({ code_client, payment }) => {
+        const cliente = await getClienteById(code_client)
+        const representante = await getEmpleadoPorId(cliente[0].code_employee_sales_manager)
+
+        return {
+            payment,
+            "client_name": cliente[0].client_name,
+            "sales_manager": `${representante[0].name} ${representante[0].lastname1}`
+        }
+    })
+
+    console.log(await Promise.all(data));
+}
+
+// getClientesConPagoYRepresentanteDeVentas()
