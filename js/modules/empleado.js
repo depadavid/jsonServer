@@ -22,3 +22,15 @@ async function getEmpleadoPorRol(rol, es=true) {
     response = (await fetch(`http://localhost:5501/employee?position=${rol}`))
     return await response.json()
 }
+
+// 3. Devuelve un listado con el nombre, apellidos y email de los empleados cuyo jefe tiene un código de jefe igual a 7.
+
+async function getEmpleadosPorJefe(codigoJefe) {
+    const response = await fetch(`http://localhost:3000/employee?code_boss=${codigoJefe}`)
+    const empleados = await response.json()
+
+    const empleadosInfo = empleados.map(({ name, lastname1, lastname2, email }) => ({ name, lastname1, lastname2, email }))
+    console.log(empleadosInfo);
+}
+
+// getEmpleadosPorJefe(3)
