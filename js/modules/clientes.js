@@ -143,3 +143,25 @@ async function getClientesSinPagoYRepresentanteDeVentasYCiudad() {
 }
 
 // getClientesSinPagoYRepresentanteDeVentasYCiudad()
+
+// 7. Devuelve el nombre de los clientes y el nombre de sus representantes junto con la ciudad de la oficina a la que pertenece el representante.
+
+async function getClienteYRepresentanteDeVentasYCiudad() {
+    const clientes = await getClientes()
+    const clientesInfo = clientes.map(({ client_name, code_employee_sales_manager }) => ({ client_name, code_employee_sales_manager }))
+
+    // obteniendo al representante de ventas
+    const data = clientesInfo.map(async ({ client_name, code_employee_sales_manager }) => {
+        const representante = (await getEmpleadoPorId(code_employee_sales_manager))
+        const oficina = await getOficinaPorId(representante[0].code_office)
+
+        return {
+            client_name,
+            "sales_manager": `${representante[0].name} ${representante[0].lastname1}`,
+            "city": oficina[0].city
+        }
+    })
+    console.log(await Promise.all(data));
+}
+
+getClienteYRepresentanteDeVentasYCiudad()
