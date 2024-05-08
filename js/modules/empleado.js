@@ -13,3 +13,12 @@ export async function getEmpleadoPorId(id) {
 }
 
 // console.log(getEmpleadoPorId(1));
+
+async function getEmpleadoPorRol(rol, es=true) {
+    let response
+    if(!es) {
+        response = (await fetch(`http://localhost:5501/employee?position=!${rol}`))
+    }
+    response = (await fetch(`http://localhost:5501/employee?position=${rol}`))
+    return await response.json()
+}
