@@ -42,44 +42,20 @@ async function getClientesMadrid(prams) {
 // CONSULTA MULTITABLA
 
 // 1. Obtén un listado con el nombre de cada cliente y el nombre y apellido de su representante de ventas.
-async function getClientes() {
-    const response = await fetch("http://localhost:3000/clients")
-    const data = await response.json()
+async function getClienteYRepresentanteDeVentas() {
+    const clientes = await getClientes()
+    const clientesInfo = clientes.map(({ client_name, code_employee_sales_manager }) => ({ client_name, code_employee_sales_manager }))
 
-    const infoClientes = []
+    // obteniendo al representante de ventas
+    const data = clientesInfo.map(async ({ client_name, code_employee_sales_manager }) => {
+        const representante = (await getEmpleadoPorId(code_employee_sales_manager))
 
-    data.forEach(cliente => {
-        const { client_name, code_employee_sales_manager } = cliente
-
-        infoClientes.push({ client_name, code_employee_sales_manager })
+        return {
+            client_name,
+            "sales_manager": `${representante[0].name} ${representante[0].lastname1}`
+        }
     })
-    return infoClientes
+    console.log(await Promise.all(data));
 }
 
-async function getEmpleados() {
-    const response = await fetch(`http://localhost:5501/employee`)
-    const empleados = await response.json()
-    return empleados
-}
-
-
-async function getClienteYRepesentanteDeVentas() {
-
-    let infoClientes = await getClientes()
-    const empleados = await getEmpleados()
-
-    infoClientes.forEach(cliente => {
-        let { code_employee_sales_manager } = cliente
-        empleados.forEach(empleado => {
-            let { id } = empleado
-            if (code_employee_sales_manager == id) {
-                infoClientes.code_employee_sales_manager = `${empleado["name"]} ${empleado["lastname1"]}`
-            }
-            console.log(infoClientes);
-        })
-    })
-    // console.log(infoClientes);
-}
-getClienteYRepesentanteDeVentas()
-
-
+// getClienteYRepresentanteDeVentas()
