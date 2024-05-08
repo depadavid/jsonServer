@@ -82,3 +82,17 @@ async function getClientesConPagoYRepresentanteDeVentas() {
 }
 
 // getClientesConPagoYRepresentanteDeVentas()
+
+// 3. Devuelve un listado que muestre los clientes que no han realizado ningún pago y los que no han realizado ningún pedido.
+
+async function getClientesSinPago() {
+    const pagos = await getPagos()
+    const clientes = await getClientes()
+
+    const codeClientesFromPayments = pagos.map(({code_client}) => code_client)
+    const clientesSinPago = clientes.filter(({client_code}) => !codeClientesFromPayments.includes(client_code))
+
+    console.log(clientesSinPago);
+}
+
+// getClientesSinPago()
